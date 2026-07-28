@@ -1653,6 +1653,7 @@ version = "2.115.0"
 source = { editable = "." }
 dependencies = [
     { name = "certifi" },
+    { name = "docling" },
     { name = "docling-core" },
     { name = "filetype" },
     { name = "pluggy" },
@@ -1999,6 +2000,7 @@ requires-dist = [
     { name = "certifi", specifier = ">=2024.7.4" },
     { name = "defusedxml", marker = "extra == 'format-xml-uspto'", specifier = ">=0.7.1,<0.8.0" },
     { name = "defusedxml", marker = "extra == 'models-local'", specifier = ">=0.7.1,<0.8.0" },
+    { name = "docling", editable = "packages/docling" },
     { name = "docling-core", specifier = ">=2.86.0,<3.0.0" },
     { name = "docling-core", extras = ["chunking"], marker = "extra == 'feat-chunking'", specifier = ">=2.73.0,<3.0.0" },
     { name = "docling-ibm-models", marker = "extra == 'models-local'", specifier = ">=3.13.0,<4" },
