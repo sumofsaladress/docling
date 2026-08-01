@@ -441,13 +441,17 @@ class TransformersVlmEngine(BaseVlmEngine, HuggingFaceModelDownloadMixin):
         }
 
         # Generate
-        gen_kwargs = {
-            **inputs,
-            "max_new_tokens": first_input.max_new_tokens,
-            "use_cache": self.options.use_kv_cache,
-            "generation_config": self.generation_config,
-            **generation_config,
-        }
+        gen_kwargs = {**inputs}
+        if self.generation_config is not None:
+            gen_kwargs.update(self.generation_config.to_dict())
+
+        gen_kwargs.update(
+            {
+                "max_new_tokens": first_input.max_new_tokens,
+                "use_cache": self.options.use_kv_cache,
+                **generation_config,
+            }
+        )
 
         if first_input.temperature > 0:
             gen_kwargs["do_sample"] = True

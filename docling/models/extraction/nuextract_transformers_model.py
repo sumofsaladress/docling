@@ -256,12 +256,16 @@ class NuExtractTransformersModel(BaseVlmModel, HuggingFaceModelDownloadMixin):
         processor_inputs = {k: v.to(self.device) for k, v in processor_inputs.items()}
 
         # Generate
-        gen_kwargs = {
-            **processor_inputs,
-            "max_new_tokens": self.max_new_tokens,
-            "generation_config": self.generation_config,
-            **self.vlm_options.extra_generation_config,
-        }
+        gen_kwargs = {**processor_inputs}
+        if self.generation_config is not None:
+            gen_kwargs.update(self.generation_config.to_dict())
+
+        gen_kwargs.update(
+            {
+                "max_new_tokens": self.max_new_tokens,
+                **self.vlm_options.extra_generation_config,
+            }
+        )
         if self.temperature > 0:
             gen_kwargs["do_sample"] = True
             gen_kwargs["temperature"] = self.temperature

@@ -2,7 +2,7 @@
 from pathlib import Path
 from docling.document_converter import DocumentConverter
 
-source = Path("./Riman-Product-Eng-PDF.pdf")
+source = Path("./sourcepdf/Compensation_plan_HK_CN.pdf")
 converter = DocumentConverter()
 result = converter.convert(str(source))
 

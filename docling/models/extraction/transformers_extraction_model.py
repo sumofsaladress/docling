@@ -164,15 +164,14 @@ class TransformersExtractionModel(BaseVlmModel, HuggingFaceModelDownloadMixin):
             )
 
         # Generate
-        gen_kwargs: dict[str, Any] = {
-            **processor_inputs,
-            "max_new_tokens": self.max_new_tokens,
-        }
+        gen_kwargs = {**processor_inputs}
         if self.generation_config is not None:
-            gen_kwargs["generation_config"] = self.generation_config
+            gen_kwargs.update(self.generation_config.to_dict())
             gen_kwargs.update(self.vlm_options.extra_generation_config)
         else:
             gen_kwargs["use_cache"] = True
+
+        gen_kwargs["max_new_tokens"] = self.max_new_tokens
 
         if self.temperature > 0:
             gen_kwargs["do_sample"] = True

@@ -367,13 +367,17 @@ class HuggingFaceTransformersVlmModel(BaseVlmPageModel, HuggingFaceModelDownload
         }
 
         # -- Generate (Image-Text-to-Text class expects these inputs from processor)
-        gen_kwargs = {
-            **inputs,
-            "max_new_tokens": self.max_new_tokens,
-            "use_cache": self.use_cache,
-            "generation_config": self.generation_config,
-            **generation_config,
-        }
+        gen_kwargs = {**inputs}
+        if self.generation_config is not None:
+            gen_kwargs.update(self.generation_config.to_dict())
+
+        gen_kwargs.update(
+            {
+                "max_new_tokens": self.max_new_tokens,
+                "use_cache": self.use_cache,
+                **generation_config,
+            }
+        )
         if self.temperature > 0:
             gen_kwargs["do_sample"] = True
             gen_kwargs["temperature"] = self.temperature
